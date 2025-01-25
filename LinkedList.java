@@ -105,6 +105,7 @@ public class LinkedList {
 			last.next = newNode;
 			last = newNode;
 		}
+		size++;
 	}
 	
 	/**
@@ -120,11 +121,14 @@ public class LinkedList {
 		if (size == 0){
 			first = newNode;
 			last = newNode;
+
 		}
 		else {
 			newNode.next = first;
 			first = newNode;
+
 		}
+		size++;
 	}
 	
 	/**
@@ -267,7 +271,7 @@ public class LinkedList {
 
 	
 	public int getSize() {
-		
+
 		return size;
 	}
 	
