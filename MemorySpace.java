@@ -58,40 +58,40 @@ public class MemorySpace {
 	 * @return the base address of the allocated block, or -1 if unable to allocate
 	 */
 	public int malloc(int length) {
-
 		Node current = freeList.iterator().current;
 		Node previous = null;
 	
 		while (current != null) {
 			MemoryBlock block = current.block;
 	
-			if (block.length >= length) { 
+			if (block.length >= length) { // Block can satisfy the request
+				// Step 1: Create a new allocated memory block
 				MemoryBlock allocatedBlock = new MemoryBlock(block.baseAddress, length);
 	
+				// Step 2: Add the allocated block to the allocatedList
 				allocatedList.addLast(allocatedBlock);
 	
-				if (block.length == length) { 
-					if (previous == null) {
+				// Step 3: Adjust or remove the free block
+				if (block.length == length) { // Exact fit
+					if (previous == null) { // Removing the first node in freeList
 						freeList.iterator().current = current.next;
-						freeList.iterator().current = null;
-					} else { 
+					} else { // Removing a middle or last node
 						previous.next = current.next;
 					}
-					if (current == freeList.iterator().current) { 
-						freeList.iterator().current = previous;
-					}
-				} else { 
-					block.baseAddress += length; 
-					block.length -= length;     
+				} else { // Partial allocation
+					block.baseAddress += length; // Adjust the base address of the free block
+					block.length -= length; // Reduce the length of the free block
 				}
 	
+				// Step 4: Return the base address of the allocated block
 				return allocatedBlock.baseAddress;
 			}
 	
 			previous = current;
-			current = current.next;
+			current = current.next; // Move to the next free block
 		}
 	
+		// If no suitable block is found, return -1
 		return -1;
 	}
 	/**
@@ -103,35 +103,33 @@ public class MemorySpace {
 	 *            the starting address of the block to freeList
 	 */
 	public void free(int address) {
-		
 		Node current = allocatedList.iterator().current;
-    	Node previous = null;
-
-    while (current != null) {
-        MemoryBlock block = current.block;
-
-        if (block.baseAddress == address) { 
-
-			if (previous == null) { 
-                allocatedList.iterator().current = current.next;
-            } else { 
-                previous.next = current.next;
-            }
-            if (current == allocatedList.iterator().current) { 
-                allocatedList.iterator().current = previous;
-            }
-
-            freeList.addLast(block);
-
-            return; 
-        }
-
-        previous = current;
-        current = current.next;
-    }
-
-    throw new IllegalArgumentException("Block with base address " + address + " not found in allocated list.");
-}
+		Node previous = null;
+	
+		while (current != null) {
+			MemoryBlock block = current.block;
+	
+			if (block.baseAddress == address) { // Block found
+				// Step 1: Remove the block from the allocatedList
+				if (previous == null) { // Removing the first node
+					allocatedList.iterator().current = current.next;
+				} else {
+					previous.next = current.next; // Bypass the current node
+				}
+	
+				// Step 2: Add the block back to the freeList
+				freeList.addLast(block);
+	
+				return; // Successfully freed
+			}
+	
+			previous = current;
+			current = current.next;
+		}
+	
+		// If no matching block is found, throw an exception
+		throw new IllegalArgumentException("Block with base address " + address + " not found in allocated list.");
+	}
 	
 	/**
 	 * A textual representation of the free list and the allocated list of this memory space, 
@@ -152,7 +150,7 @@ public class MemorySpace {
 			return;
 		}
 	
-		// Step 1: Sort the freeList by baseAddress (using a simple bubble sort for clarity)
+		// Step 1: Sort the freeList by baseAddress
 		boolean swapped;
 		do {
 			swapped = false;
@@ -177,15 +175,13 @@ public class MemorySpace {
 	
 			if (currentBlock.baseAddress + currentBlock.length == nextBlock.baseAddress) {
 				// Merge the two blocks
-				currentBlock.length += nextBlock.length; // Increase the length of the current block
-				current.next = current.next.next;       // Remove the next block from the list
-				if (current.next == null) { // Update the last pointer if needed
-					freeList.iterator().current = current;
-				}
+				currentBlock.length += nextBlock.length; // Extend the current block
+				current.next = current.next.next;       // Remove the next block
 			} else {
-				current = current.next; // Move to the next node
+				current = current.next; // Move to the next block
 			}
 		}
 	}
 	}
+	
 
