@@ -180,10 +180,20 @@ public class LinkedList {
 	 *        the node that will be removed from this list
 	 */
 	public void remove(Node node) {
+		
+		if(size == 0){
+			return;
+		
+		}
 		if(node.equals(first)){
 			first = first.next;
 			size--;
+
+			if (size == 0) { 
+				last = null;
+			}
 			return;
+		
 		}
 		
 		Node current = first.next;
