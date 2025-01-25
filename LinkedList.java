@@ -69,12 +69,15 @@ public class LinkedList {
 		}
 		Node newNode = new Node(block);
 
-		if (index == 0){
-			first = newNode;
-		}
 		if (size == 0){
+			first = newNode;
 			last = newNode;
 		}
+		if (index == 0){
+			newNode.next = first;
+			first = newNode;
+		}
+		
 
 		else{
 			Node current = first;
@@ -208,6 +211,10 @@ public class LinkedList {
 	 *         if index is negative or greater than or equal to size
 	 */
 	public void remove(int index) {
+		if (index < 0 || index > size) {
+			throw new IllegalArgumentException(
+					"ERROR NullPointerException: Cannot read field \"block\" because the return value of \"LinkedList.getNode(int)\" is null");
+		}
 		remove(getNode(index));
 	}
 
