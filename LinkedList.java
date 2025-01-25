@@ -30,7 +30,7 @@ public class LinkedList {
 	 * @return the node at the given index
 	 */		
 	public Node getNode(int index) {
-		if (index < 0 || index > size) {
+		if (index < 0 || index >= size) {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
 		}
@@ -148,12 +148,14 @@ public class LinkedList {
 	 *         if index is negative or greater than or equal to size
 	 */
 	public MemoryBlock getBlock(int index) {
-		if (index < 0 || index > size) {
+
+		if (index < 0 || index >= size) {
 			throw new IllegalArgumentException("index must be between 0 and size");
 		}
 	
+		// Retrieve the node at the specified index and return its block
 		return getNode(index).block;
-	}	
+	}
 
 	/**
 	 * Gets the index of the node pointing to the given memory block.
@@ -212,6 +214,7 @@ public class LinkedList {
 
 				if(current.equals(last)){
 					last = prev;
+					last.next = null;
 				}
 
 				size--;
@@ -220,6 +223,7 @@ public class LinkedList {
 			prev = current;
 			current = current.next;
 		}
+		return;
 		
 	}
 
