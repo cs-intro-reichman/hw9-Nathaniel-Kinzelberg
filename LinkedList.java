@@ -233,7 +233,7 @@ public class LinkedList {
 	 *         if index is negative or greater than or equal to size
 	 */
 	public void remove(int index) {
-		if (index < 0 || index > size) {
+		if (index < 0 || index >= size) {
 			throw new IllegalArgumentException(
 					"ERROR NullPointerException: Cannot read field \"block\" because the return value of \"LinkedList.getNode(int)\" is null");
 		}
@@ -249,7 +249,7 @@ public class LinkedList {
 	 */
 	public void remove(MemoryBlock block) {
 		if(indexOf(block) == -1){
-			throw new IllegalArgumentException("Not in the list");
+			throw new IllegalArgumentException("index must be between 0 and size");
 		}
 		remove(indexOf(block));
 	}	
