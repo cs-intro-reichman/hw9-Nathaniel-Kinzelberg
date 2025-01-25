@@ -148,6 +148,9 @@ public class LinkedList {
 	 *         if index is negative or greater than or equal to size
 	 */
 	public MemoryBlock getBlock(int index) {
+		if (index < 0 || index > size) {
+			throw new IllegalArgumentException("index must be between 0 and size");
+		}
 	
 		return getNode(index).block;
 	}	
@@ -182,11 +185,11 @@ public class LinkedList {
 	public void remove(Node node) {
 
 		if (node == null) {
-			throw new NullPointerException("ERROR NullPointerException!");
+			return;
 		}
 		
-		if(size == 0){
-			throw new IllegalStateException("ERRORList is empty");		
+		if(size == 0 || size < 0){
+			return;		
 		}
 
 		if (node.equals(first)) { 
