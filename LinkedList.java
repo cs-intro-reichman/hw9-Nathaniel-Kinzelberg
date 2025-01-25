@@ -185,47 +185,36 @@ public class LinkedList {
 	 *        the node that will be removed from this list
 	 */
 	public void remove(Node node) {
-
-		if (node == null) {
+		if (node == null) { // Case 1: Null node
 			throw new NullPointerException("ERROR NullPointerException!");
 		}
-		
-		if(size == 0 || size < 0){
-			first = null;
-			last = null;
-			return;		
+	
+		if (size == 0) { // Case 2: Empty list
+			return; // Do nothing, as the list is already empty
 		}
-
-		if (node.equals(first)) { 
-			first = first.next;
+	
+		if (node.equals(first)) { // Case 3: Removing the first node
+			first = first.next; // Update first to the next node
 			size--;
-			if(size == 0){
-				first = null;
-				last = null;
-			}
-
-			if (size == 0) { 
-				last = null;
-				first = null;
+	
+			if (size == 0) { // If the list becomes empty
+				last = null; // Update last to null
 			}
 			return;
 		}
-		
+	
 		Node current = first.next;
 		Node prev = first;
-
-		while(current != null){
-			if(current.equals(node)){
-
-				prev.next = current.next;
-
-				if(current.equals(last)){
-					last = prev;
-					last.next = null;
+	
+		while (current != null) {
+			if (current.equals(node)) { // Node found
+				prev.next = current.next; // Bypass the current node
+				if (current.equals(last)) { // If removing the last node
+					last = prev; // Update the last pointer
 				}
-
 				size--;
-				if(size == 0){
+	
+				if (size == 0) { // If the list becomes empty
 					first = null;
 					last = null;
 				}
@@ -234,7 +223,6 @@ public class LinkedList {
 			prev = current;
 			current = current.next;
 		}
-		
 	}
 
 	/**
