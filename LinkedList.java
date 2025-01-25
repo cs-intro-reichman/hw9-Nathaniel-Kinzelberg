@@ -187,10 +187,12 @@ public class LinkedList {
 	public void remove(Node node) {
 
 		if (node == null) {
-			return;
+			throw new NullPointerException("ERROR NullPointerException!");
 		}
 		
 		if(size == 0 || size < 0){
+			first = null;
+			last = null;
 			return;		
 		}
 
@@ -223,7 +225,6 @@ public class LinkedList {
 			prev = current;
 			current = current.next;
 		}
-		return;
 		
 	}
 
