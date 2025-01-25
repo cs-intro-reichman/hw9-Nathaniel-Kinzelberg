@@ -73,9 +73,13 @@ public class LinkedList {
 			first = newNode;
 			last = newNode;
 		}
-		if (index == 0){
+		else if (index == 0){
 			newNode.next = first;
 			first = newNode;
+		}
+		else if (index == size){
+			last.next = newNode;
+			last = newNode;
 		}
 		
 
