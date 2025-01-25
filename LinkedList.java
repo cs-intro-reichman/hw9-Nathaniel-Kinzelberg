@@ -199,9 +199,14 @@ public class LinkedList {
 		if (node.equals(first)) { 
 			first = first.next;
 			size--;
+			if(size == 0){
+				first = null;
+				last = null;
+			}
 
 			if (size == 0) { 
 				last = null;
+				first = null;
 			}
 			return;
 		}
@@ -220,6 +225,10 @@ public class LinkedList {
 				}
 
 				size--;
+				if(size == 0){
+					first = null;
+					last = null;
+				}
 				return;
 			}
 			prev = current;
