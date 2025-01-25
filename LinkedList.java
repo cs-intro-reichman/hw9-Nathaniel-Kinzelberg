@@ -180,12 +180,16 @@ public class LinkedList {
 	 *        the node that will be removed from this list
 	 */
 	public void remove(Node node) {
+
+		if (node == null) {
+			throw new NullPointerException("ERROR NullPointerException!");
+		}
 		
 		if(size == 0){
-			return;
-		
+			throw new IllegalStateException("ERRORList is empty");		
 		}
-		if(node.equals(first)){
+
+		if (node.equals(first)) { 
 			first = first.next;
 			size--;
 
@@ -193,7 +197,6 @@ public class LinkedList {
 				last = null;
 			}
 			return;
-		
 		}
 		
 		Node current = first.next;
